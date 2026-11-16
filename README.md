@@ -76,7 +76,7 @@ To register an admin, set a private `ADMIN_SIGNUP_KEY` in the backend `.env`, re
 | `ADMIN_SIGNUP_KEY` | Long random secret required to create an admin through public signup (required for admin self-registration) |
 | `RAZORPAY_KEY_ID` | Razorpay API key ID (needed for paid course checkout) |
 | `RAZORPAY_KEY_SECRET` | Razorpay API secret; keep this only in the backend environment |
-| `CLIENT_URL` | Allowed frontend origin(s), comma-separated |
+| `CLIENT_URL` | Additional allowed frontend origin(s), comma-separated; the production Vercel URL is allowed by default |
 | `CLOUDINARY_CLOUD_NAME / _API_KEY / _API_SECRET` | Enables uploads (otherwise upload endpoints return 503) |
 | `AI_API_KEY` | GroqCloud API key. Without it the assistant answers in demo mode |
 | `AI_MODEL` | Groq model id (default `openai/gpt-oss-20b`) |
@@ -152,7 +152,7 @@ Create a free cluster, add a database user, allow network access (`0.0.0.0/0` fo
 ### 3. Frontend — Vercel
 1. Vercel → **Add New Project** → import the repo, set **Root Directory** to `frontend` (framework: Vite).
 2. Environment variable: `VITE_API_URL=https://<service>.onrender.com/api`.
-3. Deploy, then put the Vercel URL into `CLIENT_URL` on Render (comma-separate if you also want to allow preview URLs) and redeploy the API.
+3. Deploy. The stable production URL `https://fsd-lumen-learn-lms.vercel.app` is allowed by default; set `CLIENT_URL` on Render for any custom domains or preview URLs (comma-separate multiple origins), then redeploy the API.
 
 Render's free tier sleeps when idle; the first request after a pause can take ~30–60 s.
 

@@ -10,7 +10,10 @@ const { notFound, errorHandler } = require('./middleware/error');
 const app = express();
 app.set('trust proxy', 1); // Render sits behind a proxy
 
-const allowed = (process.env.CLIENT_URL || 'http://localhost:5173').split(',').map((s) => s.trim());
+const allowed = new Set([
+  ...(process.env.CLIENT_URL || 'http://localhost:5173').split(',').map((s) => s.trim()),
+  'https://fsd-lumen-learn-lms.vercel.app',
+]);
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -25,7 +28,7 @@ app.use(
   cors({
     origin: (origin, cb) => {
       // allow same-origin tools (curl/Postman) and whitelisted frontends (incl. Vercel previews if listed)
-      if (!origin || allowed.includes(origin)) return cb(null, true);
+      if (!origin || allowed.has(origin)) return cb(null, true);
       cb(new Error(`CORS: origin ${origin} not allowed`));
     },
     credentials: true,
